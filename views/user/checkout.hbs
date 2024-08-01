@@ -1,0 +1,112 @@
+<style>
+    .new{
+        height: auto;
+        padding: 100px 0px;
+        margin: 100px 0px;
+    }
+</style>
+<div class="page-wrapper new">
+    <div class="checkout shopping">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="block billing-details">
+                        <h4 class="widget-title">Billing Details</h4>
+                        <form class="checkout-form" method="POST" action="/orders">
+                            <input type="hidden" id="isAddingNewAddress" name="isAddingNewAddress" value="false">
+                            <input type="hidden" name="couponCode" id="hiddenCouponCode">
+                            {{#if addresses}}
+                            {{#each addresses}}
+                            <div class="form-check">
+                                <input  type="radio" name="addressId" id="address{{_id}}" value="{{_id}}">
+                                <label class="form-check-label" for="address{{_id}}">
+                                    {{place}}, {{houseNumber}}, {{street}}, {{city}}, {{zipcode}}, {{country}}
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default" onclick="editAddress('{{this._id}}')"><i class="tf-pencil2" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-default" onclick="deleteAddress('{{this._id}}')"><i class="tf-ion-close" aria-hidden="true"></i></button>
+                                    </div>
+                                </label>
+                            </div>
+                            {{/each}}
+                            <div class="form-check">
+                                <a href="/address" role="button" class="btn btn-success">Add Address</a>
+                            </div>
+                            {{else}}
+                            <div class="form-check">
+                                <a href="/address" role="button" class="btn btn-success">Add Address</a>
+                            </div>
+                            {{/if}}
+                            <h4 class="widget-title">Payment Method</h4>
+                            <div class="form-check">
+                                <input type="radio" name="paymentMethod" id="cod" value="COD">
+                                <label class="form-check-label" for="cod">Cash on Delivery</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="paymentMethod" id="wallet" value="Wallet">
+                                <label class="form-check-label" for="wallet">Wallet</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="paymentMethod" id="razorpay" value="Razorpay">
+                                <label class="form-check-label" for="razorpay">Razorpay</label>
+                            </div>
+                            <button type="submit" class="btn btn-main mt-20">Place Order</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="product-checkout-details">
+                        <div class="block">
+                            <h4 class="widget-title">Order Summary</h4>
+                            {{#each cart.items}}
+                            <div class="media product-card">
+                                <a class="pull-left" href="product-single.html">
+                                    <img class="media-object" src="/uploads/products/{{this.product.mainImage}}" alt="Image" width="100" height="100">
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="product-single.html">{{this.product.name}}</a></h4>
+                                    <p class="price">{{this.quantity}} x {{this.product.price}}</p>
+                                </div>
+                            </div>
+                            {{/each}}
+                            <ul class="summary-prices">
+                                <li>
+                                    <span>Shipping:</span>
+                                    <span>Free</span>
+                                </li>
+                                {{!-- <li id="coupon">
+                                    {{#if couponDetails}}
+                                    <div id="couponInfo">
+                                        <span>Coupon Applied: -₹{{couponDetails.discountAmount}}</span>
+                                        <a href="#" id="removeCoupon" class="btn btn-danger">Remove</a>
+                                    </div>
+                                    {{else}}
+                                    <div id="couponInfo">
+                                        <span>Coupon Code:</span>
+                                        <span><a href="#" id="openCouponModal">Enter Coupon Code</a></span>
+                                    </div>
+                                    {{/if}}
+                                </li>
+                                <li>
+                                    <h5>Coupons</h5>
+                                    <select name="coupons" id="#">
+                                    {{#each coupons}}
+                                    <option value="none">See the Coupons</option>
+                                    <option value="{{this.code}}">{{this.code}}</option>
+                                    {{/each}}
+                                    </select>
+                                </li> --}}
+                            </ul>
+                            <div class="summary-total">
+                                <span>Total</span>
+                                <span class="price">₹{{cart.totalPrice}}</span>
+                            </div>
+                            <div class="verified-icon">
+                                <img src="/images/shop/verified.png" alt="Verified">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
