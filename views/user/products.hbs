@@ -5,6 +5,12 @@
         position: relative;
         top: 50px;
     }
+	input[type="radio"] {
+        width: 20px; /* Adjust width as needed */
+        height: 20px; /* Adjust height as needed */
+        margin-right: 10px; /* Space between radio button and label */
+    }
+	
 </style>
 	<div class="bg0 m-t-23 p-b-140 new">
 
@@ -72,9 +78,9 @@
 							<ul>
 								<li class="p-b-6">
 									
-									  <label>
-                            <input type="radio" name="sort" value="priceLow" {{#if (eq sort 'priceLow')}}checked{{/if}}> Price: Low to High
-                        </label>
+									  <label>Price: Low to High</label>
+                            <input type="radio" name="sort" value="priceLow" {{#if (eq sort 'priceLow')}}checked{{/if}}> 
+                        
                       
 									
 								</li>
@@ -96,19 +102,16 @@
 								Price
 							</div>
 
-							<ul>
-								<li class="p-b-6">
-									<a href=`{{#if (eq productType 'new')}}checked{{/if}}`class="filter-link stext-106 trans-04">
-									New Arrivals
-									</a>
-								</li>
-
-								<li class="p-b-6">
-									<a href=`{{#if (eq productType 'old')}}checked{{/if}}` class="filter-link stext-106 trans-04">
-										  Existing Products
-									</a>
-								</li>
-							</ul>
+							<div>
+                        <h4>Products</h4>
+                        <label>
+                            <input type="radio" name="productType" value="new" {{#if (eq productType 'new')}}checked{{/if}}> New Arrivals
+                        </label>
+                        <br>
+                        <label>
+                            <input type="radio" name="productType" value="old" {{#if (eq productType 'old')}}checked{{/if}}> Existing Products
+                        </label>
+                    </div>
 						</div>
 
 						<div class="filter-col3 p-r-15 p-b-27">
@@ -236,4 +239,26 @@
                 </nav>
                 {{/if}}
 	</div>
-		
+	<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const sortRadioButtons = document.querySelectorAll('input[type="radio"][name="sort"]');
+        sortRadioButtons.forEach(function (radioButton) {
+            radioButton.addEventListener('click', function () {
+                const sortValue = this.value;
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('sort', sortValue);
+                window.location.href = currentUrl.toString();
+            });
+        });
+
+		const productTypeRadioButtons = document.querySelectorAll('input[type="radio"][name="productType"]');
+        productTypeRadioButtons.forEach(function (radioButton) {
+            radioButton.addEventListener('click', function () {
+                const productTypeValue = this.value;
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('productType', productTypeValue);
+                window.location.href = currentUrl.toString();
+            });
+        });
+	})
+	</script>

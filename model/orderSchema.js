@@ -41,7 +41,7 @@ const orderSchema = new mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        enum: ['COD', 'Wallet', 'Razorpay'],
+        enum: ['COD'],
         required: true
     },
     paymentStatus: {
@@ -54,24 +54,8 @@ const orderSchema = new mongoose.Schema({
         enum: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
         default: 'Pending'
     },
-    razorpayOrderId: {
-        type: String,
-        default: null
-    },
-    razorpayPaymentId: { // New field for storing Razorpay payment ID
-        type: String,
-        default: null
-    },
-    coupon: {
-        code: {
-            type: String,
-            default: null
-        },
-        discountAmount: {
-            type: Number,
-            default: 0
-        }
-    },
+    
+
     deliveryDate: {
         type: Date
     },

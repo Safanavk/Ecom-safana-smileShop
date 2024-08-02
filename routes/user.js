@@ -62,6 +62,10 @@ router.post('/cart/update/:productId', userCtrl.updateCartQuantity);
 router.get('/api/product/:productId/variant/:size',userCtrl.getProductVariant);
 
 router.get('/checkout', orderCtrl.checkout);
+router.post('/orders', orderCtrl.createOrder);
+router.get('/confirm', orderCtrl.orderConfirm);
+router.get('/get/orders', orderCtrl.getUserOrders);
+router.get('/orders/:id', orderCtrl.getOrderDetails);
 
 
 module.exports = router;

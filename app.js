@@ -145,7 +145,13 @@ Handlebars.registerHelper('json', function (context) {
 Handlebars.registerHelper('increment', function (value) {
     return parseInt(value) + 1;
 });
-
+Handlebars.registerHelper('formatDate', function (date) {
+    return new Date(date).toLocaleDateString('en-GB', {
+        day: 'numeric', 
+        month: 'short', 
+        year: 'numeric'
+    });
+});
 
 // Routes should be registered after the middlewares
 app.use('/',checkUserStatus, userRoutes);

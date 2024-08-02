@@ -54,35 +54,23 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th>Order</th>
+                                                            <th>Order id</th>
                                                             <th>Date</th>
                                                             <th>Status</th>
                                                             <th>Total</th>
-                                                            <th>Actions</th>
+                                                            <th>View</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {{#each orders}}
                                                         <tr>
-                                                            <td>#1357</td>
-                                                            <td>March 45, 2020</td>
-                                                            <td>Processing</td>
-                                                            <td>$125.00 for 2 item</td>
-                                                            <td><a href="#" class="btn-small d-block">View</a></td>
+                                                            <td>{{this._id}}</td>
+                                                            <td>{{formatDate this.createdAt}}</td>
+                                                            <td>{{this.orderStatus}}</td>
+                                                            <td>₹{{this.totalAmount}}</td>
+                                                            <td><a href="/orders/{{this._id}}" class="btn btn-default">View</a></td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>#2468</td>
-                                                            <td>June 29, 2020</td>
-                                                            <td>Completed</td>
-                                                            <td>$364.00 for 5 item</td>
-                                                            <td><a href="#" class="btn-small d-block">View</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>#2366</td>
-                                                            <td>August 02, 2020</td>
-                                                            <td>Completed</td>
-                                                            <td>$280.00 for 3 item</td>
-                                                            <td><a href="#" class="btn-small d-block">View</a></td>
-                                                        </tr>
+                                                        {{/each}}
                                                     </tbody>
                                                 </table>
                                             </div>
