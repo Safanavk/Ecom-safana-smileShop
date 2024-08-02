@@ -1,10 +1,97 @@
 <style>
-    .new{
+    .new {
         height: auto;
         padding: 100px 0px;
-        margin: 100px 0px;
+        margin: 50px 0px;
+    }
+    .form-check {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    input[type="radio"] {
+        width: 20px; /* Adjust width as needed */
+        height: 20px; /* Adjust height as needed */
+        margin-right: 10px; /* Space between radio button and label */
+    }
+    .form-check-label {
+        margin-bottom: 0; /* Align label with radio button */
+    }
+    .btn {
+        padding: 8px 16px; /* Adjust padding as needed */
+        font-size: 14px; /* Adjust font size as needed */
+        border-radius: 5px; /* Rounded corners */
+    }
+    .btn-main {
+        background-color: #088178; /* Change background color as needed */
+        color: white; /* Text color */
+    }
+    .btn-success {
+        background-color: #088178; /* Change background color as needed */
+        color: white; /* Text color */
+    }
+    .btn-default {
+        background-color: #088178; /* Change background color as needed */
+        color: white; /* Text color */
+    }
+    .btn-danger {
+        background-color: #dc3545; /* Change background color as needed */
+        color: white; /* Text color */
+    }
+    .btn-group {
+        display: flex;
+        align-items: center;
+    }
+    .product-checkout-details {
+        margin-top: 20px; /* Space above order summary */
+    }
+    .widget-title {
+        margin-bottom: 40px; /* Space below order summary title */
+        font-size: 1.5em; /* Increase font size of the title */
+    }
+    .media.product-card {
+        margin-bottom: 15px; /* Space between product cards */
+        display: flex;
+        align-items: flex-start; /* Align items at the top */
+    }
+    .media-object {
+        margin-right: 15px; /* Space between image and product details */
+    }
+    .media-body {
+        display: flex;
+        flex-direction: column;
+    }
+    .media-heading {
+        font-size: 1.2em; /* Adjust font size of product name */
+        margin-bottom: 5px; /* Space below product name */
+    }
+    .summary-prices {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px; /* Space below price summary */
+    }
+    .summary-prices li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px; /* Space between price items */
+    }
+    .summary-total {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.2em; /* Increase font size of total */
+        margin-top: 20px; /* Space above total */
+        border-top: 1px solid #ddd;
+        padding-top: 10px; /* Space inside total */
+    }
+    .block.billing-details {
+        margin-bottom: 30px; /* Space below billing details */
+    }
+    .block.payment-method {
+        margin-top: 50px; /* Space above payment method */
+        margin-bottom: 30px; /* Space below payment method */
     }
 </style>
+
 <div class="page-wrapper new">
     <div class="checkout shopping">
         <div class="container">
@@ -18,12 +105,12 @@
                             {{#if addresses}}
                             {{#each addresses}}
                             <div class="form-check">
-                                <input  type="radio" name="addressId" id="address{{_id}}" value="{{_id}}">
+                                <input type="radio" name="addressId" id="address{{_id}}" value="{{_id}}">
                                 <label class="form-check-label" for="address{{_id}}">
                                     {{place}}, {{houseNumber}}, {{street}}, {{city}}, {{zipcode}}, {{country}}
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-default" onclick="editAddress('{{this._id}}')"><i class="tf-pencil2" aria-hidden="true"></i></button>
-                                        <button type="button" class="btn btn-default" onclick="deleteAddress('{{this._id}}')"><i class="tf-ion-close" aria-hidden="true"></i></button>
+                                        <button type="button" class="btn btn-default" onclick="editAddress('{{this._id}}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button type="button" class="btn btn-default" onclick="deleteAddress('{{this._id}}')"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                 </label>
                             </div>
@@ -36,18 +123,20 @@
                                 <a href="/address" role="button" class="btn btn-success">Add Address</a>
                             </div>
                             {{/if}}
-                            <h4 class="widget-title">Payment Method</h4>
-                            <div class="form-check">
-                                <input type="radio" name="paymentMethod" id="cod" value="COD">
-                                <label class="form-check-label" for="cod">Cash on Delivery</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="paymentMethod" id="wallet" value="Wallet">
-                                <label class="form-check-label" for="wallet">Wallet</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" name="paymentMethod" id="razorpay" value="Razorpay">
-                                <label class="form-check-label" for="razorpay">Razorpay</label>
+                            <div class="block payment-method">
+                                <h4 class="widget-title">Payment Method</h4>
+                                <div class="form-check">
+                                    <input type="radio" name="paymentMethod" id="cod" value="COD">
+                                    <label class="form-check-label" for="cod">Cash on Delivery</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" name="paymentMethod" id="wallet" value="Wallet">
+                                    <label class="form-check-label" for="wallet">Wallet</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" name="paymentMethod" id="razorpay" value="Razorpay">
+                                    <label class="form-check-label" for="razorpay">Razorpay</label>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-main mt-20">Place Order</button>
                         </form>
@@ -73,40 +162,15 @@
                                     <span>Shipping:</span>
                                     <span>Free</span>
                                 </li>
-                                {{!-- <li id="coupon">
-                                    {{#if couponDetails}}
-                                    <div id="couponInfo">
-                                        <span>Coupon Applied: -₹{{couponDetails.discountAmount}}</span>
-                                        <a href="#" id="removeCoupon" class="btn btn-danger">Remove</a>
-                                    </div>
-                                    {{else}}
-                                    <div id="couponInfo">
-                                        <span>Coupon Code:</span>
-                                        <span><a href="#" id="openCouponModal">Enter Coupon Code</a></span>
-                                    </div>
-                                    {{/if}}
-                                </li>
-                                <li>
-                                    <h5>Coupons</h5>
-                                    <select name="coupons" id="#">
-                                    {{#each coupons}}
-                                    <option value="none">See the Coupons</option>
-                                    <option value="{{this.code}}">{{this.code}}</option>
-                                    {{/each}}
-                                    </select>
-                                </li> --}}
                             </ul>
                             <div class="summary-total">
                                 <span>Total</span>
                                 <span class="price">₹{{cart.totalPrice}}</span>
-                            </div>
-                            <div class="verified-icon">
-                                <img src="/images/shop/verified.png" alt="Verified">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>
 </div>

@@ -32,6 +32,14 @@ router.get('/auth/google/callback', passport.authenticate('google', { failureRed
 router.get('/products', usersideCtrl.getProducts);
 router.get('/products/:id', checkProductExists ,usersideCtrl.getProductDetails); // Apply middleware here
 
+
+// Forgot Password
+router.get('/forgot-pass', userCtrl.getForgotPasswordPage);
+router.post('/auth/forgot-pass', userCtrl.handleForgotPassword);
+router.get('/reset', userCtrl.handleResetPasswordPageAndRequest);
+router.post('/auth/reset', userCtrl.handleResetPasswordPageAndRequest);
+
+
 //profile
 
 router.get('/profile', userCtrl.profile)

@@ -270,6 +270,95 @@ const logoutUser = async (req, res) => {
     }
 };
 
+
+// Forgot Password Page
+const getForgotPasswordPage = async (req, res) => {
+    try {
+        const locals = {
+            title: "Forgot Password"
+        };
+        res.render("user/forgot-password", { title: locals.title });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+// Handle Forgot Password Request
+const handleForgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.render("user/forgot-password", { error_msg: "No account with that email address exists." });
+        }
+
+        const otp = GenerateOtp();
+        const otpExpires = Date.now() + (5 * 60 * 1000);
+
+        const newOtp = new Otp({
+            userId: user._id,
+            otp: otp,
+            expiresAt: otpExpires
+        });
+
+        await newOtp.save();
+
+        const emailDetails = await sendMail(email, otp);
+        if (!emailDetails) {
+            return res.render("user/forgot-password", { error_msg: "Failed to send OTP email." });
+        }
+
+        res.render("user/reset-password", { success_msg: 'An e-mail has been sent to ' + user.email + ' with further instructions.', title: "Reset Password" });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("An error occurred while processing your request.");
+    }
+};
+
+// Reset Password Page & Handle Reset Password
+const handleResetPasswordPageAndRequest = async (req, res) => {
+    try {
+        const { otp, password, password2 } = req.body;
+
+        if (!otp || !password || !password2) {
+            return res.render("user/reset-password", { error_msg: "Please fill in all fields." });
+        }
+
+        if (password !== password2) {
+            return res.render("user/reset-password", { error_msg: "Passwords do not match." });
+        }
+
+        const otpData = await Otp.findOne({ otp });
+        if (!otpData) {
+            return res.render("user/reset-password", { error_msg: "Invalid OTP." });
+        }
+
+        if (otpData.expiresAt < Date.now()) {
+            return res.render("user/reset-password", { error_msg: "OTP has expired." });
+        }
+
+        const user = await User.findById(otpData.userId);
+        if (!user) {
+            return res.render("user/reset-password", { error_msg: "User not found." });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        await Otp.deleteMany({ userId: user._id });
+
+        res.render("user/login", { success_msg: "Password has been reset. Please log in." });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("An error occurred while processing your request.");
+    }
+};
+
+
 //profile
 
 const profile = async(req,res)=>{
@@ -598,4 +687,7 @@ module.exports = {
     removeFromCart,
     updateCartQuantity,
     getProductVariant,
+    getForgotPasswordPage,
+    handleForgotPassword,
+    handleResetPasswordPageAndRequest,
 }
