@@ -19,6 +19,7 @@
                                 <th>Full Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th>Verified</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -30,6 +31,7 @@
                                 <td>{{this.firstname}} {{this.lastname}}</td>
                                 <td>{{this.email}}</td>
                                 <td>{{this.mobile}}</td>
+                                <td>{{this.isVerified}}</td>
                                 <td>{{#if this.isBlocked}}Blocked{{else}}Active{{/if}}</td>
                                 <td>
                                     {{#if this.isBlocked}}

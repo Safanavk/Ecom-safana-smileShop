@@ -56,13 +56,13 @@ router.get('/wallet', userCtrl.wallet)
 // Cart Routes
 router.get('/cart/data', userCtrl.getCart);
 router.post('/check-cart',userCtrl.checkCart);
-router.post('/add-to-cart',userCtrl.addToCart);
+router.post('/cart/add',userCtrl.addToCart);
 router.post('/cart/remove/:id', userCtrl.removeFromCart);
 router.post('/cart/update/:productId', userCtrl.updateCartQuantity);
 router.get('/api/product/:productId/variant/:size',userCtrl.getProductVariant);
 
 router.get('/checkout', orderCtrl.checkout);
-router.post('/orders', orderCtrl.createOrder);
+router.post('/order', orderCtrl.createOrder);
 router.get('/confirm', orderCtrl.orderConfirm);
 router.get('/get/orders', orderCtrl.getUserOrders);
 router.get('/orders/:id', orderCtrl.getOrderDetails);
